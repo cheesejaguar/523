@@ -30,6 +30,7 @@ yellow = [0.542, 0.42]
 green = [0.288, 0.279]
 blue = [0.167, 0.04]
 pink = [0.421, 0.181]
+white = [.35,.35]
 
 # Function to convert RGB to xy values
 # From Hue API: If an xy value outside of the green triangle is chosen, it will produce the closest color it can make
@@ -62,12 +63,10 @@ def trans(finish, duration, bulb):
 
     
 
-#Group hack for main room
-def  main(on,color,bright):
-    for bulb in ['Entry', 'Dining table']:
-        lights[bulb].on = on
-        lights[bulb].xy = color
-        lights[bulb].bri = bright
+#Basic Group Change Function 
+def  main(on,xy=white,brightness=200,tt=8):
+    command = {'on' : on,'xy' : xy,'bri' : brightness, 'transitiontime' : tt }
+    b.set_group(3,command)
 
 #Cycles power state of specified bulb
 # must be passed a phue light object
