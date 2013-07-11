@@ -66,7 +66,23 @@ def trans(finish, duration, bulb):
 def  main(on,xy=white,brightness=200,tt=8):
     command = {'on' : on,'xy' : xy,'bri' : brightness, 'transitiontime' : tt }
     b.set_group(3,command)
-
+    
+#Color Temp Transition WIP
+def ct_trans(bulb_number,start=154,end=500):
+    current_ct = start
+    if start <= end:
+        while current_ct < end:
+            command = {"ct": current_ct, "bri": 254}
+            b.set_light(bulb_number, command)
+            current_ct += 1
+            time.sleep(0.1)
+    else:
+       while current_ct > end:
+           command = {"ct": current_ct, "bri": 254}
+           b.set_light(bulb_number, command)
+           current_ct -= 1
+           time.sleep(0.1)
+        
 #Cycles power state of specified bulb
 # must be passed a phue light object
 def toggle(bulb):
