@@ -2,7 +2,7 @@
 
 execfile("523.py")
 
-for bulb in ['lamp', 'bed', 'book']:
+for bulb in [lamp, bed, book]:
     bulb.on = False
 
 
