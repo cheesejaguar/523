@@ -46,7 +46,11 @@ def rgb2xy(R, G, B):
     xy_vec = [x,y]
     return xy_vec
 
-def trans(finish, duration, bulb):
+
+#This function transitions the light from the current color to a specified color
+#Updated this function to receive duration in units of 10ms rather than 100ms
+#Should be a smoother transition
+def trans(finish, duration=100, bulb):
     oldstatus = bulb.transitiontime
     bulb.transitiontime = 0
     start = bulb.xy
@@ -57,7 +61,7 @@ def trans(finish, duration, bulb):
         tempxy[0] += (run/duration)
         tempxy[1] +=  (rise/duration)
         bulb.xy = tempxy
-        time.sleep(0.1)
+        time.sleep(0.01)
     bulb.transitiontime = oldstatus
 
     
@@ -82,7 +86,18 @@ def ct_trans(bulb_number,start=154,end=500):
            b.set_light(bulb_number, command)
            current_ct -= 1
            time.sleep(0.1)
-        
+
+#Proposed replacement for Color Temp Transition
+def ct_trans_aaron(bulb, temp, tt=100):
+    current_ct = bulb.colortemp
+    path = temp - current_ct
+    step = path / tt
+    for j in range(1,tt):
+        current_ct += step
+        bulb.colortemp = current_ct
+        time.sleep(0.01)
+    
+
 #Cycles power state of specified bulb
 # must be passed a phue light object
 def toggle(bulb):
