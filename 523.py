@@ -50,7 +50,7 @@ def rgb2xy(R, G, B):
 #This function transitions the light from the current color to a specified color
 #Updated this function to receive duration in units of 10ms rather than 100ms
 #Should be a smoother transition
-def trans(finish, duration=100, bulb):
+def trans(finish, duration, bulb):
     oldstatus = bulb.transitiontime
     bulb.transitiontime = 0
     start = bulb.xy
