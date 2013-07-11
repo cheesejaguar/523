@@ -53,7 +53,6 @@ def trans(finish, duration, bulb):
     tempxy = start
     rise = finish[1] - start[1]
     run = finish[0] - start[0]
-    slope = rise / run
     for j in range(0,duration):
         tempxy[0] += (run/duration)
         tempxy[1] +=  (rise/duration)
