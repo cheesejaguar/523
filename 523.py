@@ -94,7 +94,11 @@ def ct_trans_aaron(bulb, temp, tt=100):
     step = path / tt
     for j in range(1,tt):
         current_ct += step
+        #"clean" markup, but may not work if not already in ct mode
         bulb.colortemp = current_ct
+        #Ugly but working markup
+        #b.set_light(bulb.light_id, 'ct', current_ct)
+        #sleep 10ms
         time.sleep(0.01)
     
 
