@@ -1,4 +1,4 @@
-#!/usr/bin/pythonc
+#!/usr/bin/python
 
 #Import Python Hue API
 from phue import Bridge
