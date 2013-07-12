@@ -89,15 +89,15 @@ def ct_trans(bulb_number,start=154,end=500):
 
 #Proposed replacement for Color Temp Transition
 def ct_trans_aaron(bulb, temp, tt=100):
-    current_ct = bulb.colortemp
+    current_ct = bulb.colortemp_k
+    bulb.colortemp_k = current_ct
     path = temp - current_ct
+    print path
     step = path / tt
     for j in range(1,tt):
         current_ct += step
         #"clean" markup, but may not work if not already in ct mode
-        bulb.colortemp = current_ct
-        #Ugly but working markup
-        #b.set_light(bulb.light_id, 'ct', current_ct)
+        bulb.colortemp_k = current_ct
         #sleep 10ms
         time.sleep(0.01)
     
