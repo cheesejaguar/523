@@ -72,7 +72,7 @@ def  main(on,xy=white,brightness=200,tt=8):
     b.set_group(3,command)
     
 #Color Temp Transition WIP
-def ct_trans(bulbm_number,start=154,end=500):
+def ct_trans(bulb_number,start=154,end=500):
     current_ct = start
     if start <= end:
         while current_ct < end:
