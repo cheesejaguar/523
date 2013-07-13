@@ -6,8 +6,6 @@ tts = pyttsx.init()
 tts.say('Starting Twister')
 tts.runAndWait()
 colors = [[red, green, blue, yellow], ['red', 'green', 'blue', 'yellow']]
-def namestr(obj, namespace):
-	return [name for name in namespace if namespace[name] is obj]
 pick = lambda items: random.choice(items)
 while not time.sleep(6):
 	color=pick((0, 1, 2, 3))
