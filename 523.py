@@ -27,7 +27,7 @@ table.transitiontime = 8
 #Define some basic rainbow colors
 red = [0.675, 0.322]
 yellow = [0.542, 0.42]
-green = [0.288, 0.279]
+green = [0.408, 0.517]
 blue = [0.167, 0.04]
 pink = [0.421, 0.181]
 white = [.35,.35]
@@ -72,7 +72,7 @@ def  main(on,xy=white,brightness=200,tt=8):
     b.set_group(3,command)
     
 #Color Temp Transition WIP
-def ct_trans(bulb_number,start=154,end=500):
+def ct_trans(bulbm_number,start=154,end=500):
     current_ct = start
     if start <= end:
         while current_ct < end:
@@ -101,7 +101,6 @@ def ct_trans_aaron(bulb, temp, tt=100):
         #sleep 10ms
         time.sleep(0.01)
     
-
 #Cycles power state of specified bulb
 # must be passed a phue light object
 def toggle(bulb):
@@ -109,9 +108,3 @@ def toggle(bulb):
         bulb.on = False
     else:
         bulb.on = True
-
-'''
-for light in ['Lamp', 'Bookcase', 'Bed']:
-    lights[light].on = True
-    lights[light].brightness = 254
-'''
