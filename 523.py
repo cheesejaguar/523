@@ -71,21 +71,24 @@ def  main(on,xy=white,brightness=200,tt=8):
     command = {'on' : on,'xy' : xy,'bri' : brightness, 'transitiontime' : tt }
     b.set_group(3,command)
     
-#Color Temp Transition WIP
-def ct_trans(bulb_number,start=154,end=500):
-    current_ct = start
-    if start <= end:
-        while current_ct < end:
-            command = {"ct": current_ct, "bri": 254}
-            b.set_light(bulb_number, command)
-            current_ct += 1
-            time.sleep(0.1)
-    else:
-       while current_ct > end:
-           command = {"ct": current_ct, "bri": 254}
-           b.set_light(bulb_number, command)
-           current_ct -= 1
-           time.sleep(0.1)
+
+def ct_trans(bulb,temp,start=-1,steps=10,steptime=0.1):
+    ''' Colortemp transition function
+    '''
+    if start == -1:
+        start = bulb.colortemp
+    path = temp - start
+    step = divmod(math.fabs(path),steps)
+    for j in range(0,(steps+1)):
+        if j == steps:
+            start += math.copysign(step[1],path)
+        else:
+            start += math.copysign(step[0],path)
+        print start
+        command = {"ct": int(start)}
+        b.set_light(bulb.light_id, command)
+        time.sleep(steptime)
+    
 
 #Proposed replacement for Color Temp Transition
 def ct_trans_aaron(bulb, temp, tt=100):
