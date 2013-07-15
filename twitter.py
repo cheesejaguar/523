@@ -4,6 +4,7 @@ execfile("523.py")
 
 import twitter
 
+#Do not be dumb and leave your secrets here when you commit 
 my_consumer_key = 'None'
 my_consumer_secret = 'None'
 my_access_token = 'None'
@@ -17,5 +18,6 @@ api = twitter.Api(consumer_key=my_consumer_key,
                   access_token_secret=my_access_token_secret)
 
 ## This example just takes the most recent post from a specified twitter user, and sets the color of your room to that
-statuses = api.GetUserTimeline(commandHandle)
-humanRGB(entry,statuses[0].text)
+status = api.GetSearch(commandHandle)
+stripped = status.text.replace("@"+status.in_reply_to_screen_name,"")
+humanRGB(entry,stripped)
