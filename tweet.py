@@ -5,12 +5,12 @@ execfile("523.py")
 import twitter
 
 #Do not be dumb and leave your secrets here when you commit 
-my_consumer_key = 'wiAwJDA1xk0riS0TDu2lg'
-my_consumer_secret = 'rmgDxHmwLrTFE2JSc50uOWYMexCTED6HL62Pw8THlk'
-my_access_token = '14276619-QwuOw7srp2U0BYuprx7QVrAfcZZ1ewofWRksZvsQ7'
-my_access_token_secret = 'moPlJVLBoLdCmSMYZRVYyzpUhtwrs0kht6E6RY414'
+my_consumer_key = 'None'
+my_consumer_secret = 'None'
+my_access_token = 'None'
+my_access_token_secret = 'None'
 
-commandHandle = '@PentHome15'
+commandHandle = 'None'
 
 api = twitter.Api(consumer_key=my_consumer_key,
                   consumer_secret=my_consumer_secret,
