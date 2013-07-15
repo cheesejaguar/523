@@ -3,6 +3,8 @@
 #Import Python Hue API
 from phue import Bridge
 import time
+import json
+import httplib
 
 #Setup the bridge
 b = Bridge('192.168.2.144')
@@ -58,7 +60,7 @@ def rgb2xy(rgb):
 def humanRGB(bulb, english):
 
     url = "/api/colors?keywords=" + english + "&numResults=1&format=json"
-    url.replace(' ','%20')
+    url = url.replace(" ","%20")
     connection = httplib.HTTPConnection('www.colourlovers.com')
     connection.request('GET', url)
     response = connection.getresponse()
@@ -67,8 +69,9 @@ def humanRGB(bulb, english):
     parsed = json.loads(result_str)
     data_rgb = parsed[0]['rgb']
     data_hsv = parsed[0]['hsv']
-    bulb.xy = rgb2xy(data_rgb)
-    bulb.saturation = data_hsv['saturation']
+    command = {'xy' : rgb2xy(data_rgb), 'bri' : 254}
+    #b.set_light(bulb.light_id, 'saturation' , data_hsv['saturation'],0)
+    b.set_light(bulb.light_id, command)
 
 
 #This function transitions the light from the current color to a specified color
