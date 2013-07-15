@@ -67,9 +67,9 @@ def humanRGB(bulb, english):
     connection.close()
     result_str = response.read()
     parsed = json.loads(result_str)
-    data_rgb = parsed[0]['rgb']
-    data_hsv = parsed[0]['hsv']
-    command = {'xy' : rgb2xy(data_rgb), 'bri' : 254}
+    data_hue = parsed[0]['hsv']['hue'] * (65535 / 360)
+    data_sat = parsed[0]['hsv']['saturation'] * (254/100)
+    command = {'hue' : data_hue,'sat' : 254, 'bri' : 254}
     #b.set_light(bulb.light_id, 'saturation' , data_hsv['saturation'],0)
     b.set_light(bulb.light_id, command)
 
