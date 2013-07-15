@@ -3,6 +3,8 @@
 #Import Python Hue API
 from phue import Bridge
 import time
+import json
+import httplib
 
 #Setup the bridge
 b = Bridge('192.168.2.144')
@@ -32,19 +34,44 @@ blue = [0.167, 0.04]
 pink = [0.421, 0.181]
 white = [.35,.35]
 
+#RGB Array if needed
+class rgbClass:
+    def __init__(self):
+        self.data = {'red' : 0, 'green' : 0, 'blue' : 0}
+
+
 # Function to convert RGB to xy values
 # From Hue API: If an xy value outside of the green triangle is chosen, it will produce the closest color it can make
-def rgb2xy(R, G, B):
+def rgb2xy(rgb):
     # Convert RGB to XYZ
-    X = 0.649926 * R + 0.103455 * G + 0.197109 * B
-    Y = 0.234327 * R + 0.743075 * G + 0.022598 * B
-    Z = 0.000000 * R + 0.053077 * G + 1.035763 * B
+    X = 0.649926 * rgb['red'] + 0.103455 * rgb['green'] + 0.197109 * rgb['blue']
+    Y = 0.234327 * rgb['red'] + 0.743075 * rgb['green'] + 0.022598 * rgb['blue']
+    Z = 0.000000 * rgb['red'] + 0.053077 * rgb['green'] + 1.035763 * rgb['blue']
     # Get color point
     x = X / (X + Y + Z)
     y = Y / (X + Y + Z)
     # create vector
     xy_vec = [x,y]
     return xy_vec
+
+
+#This function translates english into numbers
+#Inspired by https://github.com/interstateone/siriproxy-hue/
+def humanRGB(bulb, english):
+
+    url = "/api/colors?keywords=" + english + "&numResults=1&format=json"
+    url = url.replace(" ","%20")
+    connection = httplib.HTTPConnection('www.colourlovers.com')
+    connection.request('GET', url)
+    response = connection.getresponse()
+    connection.close()
+    result_str = response.read()
+    parsed = json.loads(result_str)
+    data_rgb = parsed[0]['rgb']
+    data_hsv = parsed[0]['hsv']
+    command = {'xy' : rgb2xy(data_rgb), 'bri' : 254}
+    #b.set_light(bulb.light_id, 'saturation' , data_hsv['saturation'],0)
+    b.set_light(bulb.light_id, command)
 
 
 #This function transitions the light from the current color to a specified color
@@ -71,21 +98,24 @@ def  main(on,xy=white,brightness=200,tt=8):
     command = {'on' : on,'xy' : xy,'bri' : brightness, 'transitiontime' : tt }
     b.set_group(3,command)
     
-#Color Temp Transition WIP
-def ct_trans(bulb_number,start=154,end=500):
-    current_ct = start
-    if start <= end:
-        while current_ct < end:
-            command = {"ct": current_ct, "bri": 254}
-            b.set_light(bulb_number, command)
-            current_ct += 1
-            time.sleep(0.1)
-    else:
-       while current_ct > end:
-           command = {"ct": current_ct, "bri": 254}
-           b.set_light(bulb_number, command)
-           current_ct -= 1
-           time.sleep(0.1)
+
+def ct_trans(bulb,temp,start=-1,steps=10,steptime=0.1):
+    ''' Colortemp transition function
+    '''
+    if start == -1:
+        start = bulb.colortemp
+    path = temp - start
+    step = divmod(math.fabs(path),steps)
+    for j in range(0,(steps+1)):
+        if j == steps:
+            start += math.copysign(step[1],path)
+        else:
+            start += math.copysign(step[0],path)
+        print start
+        command = {"ct": int(start)}
+        b.set_light(bulb.light_id, command)
+        time.sleep(steptime)
+    
 
 #Proposed replacement for Color Temp Transition
 def ct_trans_aaron(bulb, temp, tt=100):
