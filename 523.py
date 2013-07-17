@@ -66,9 +66,12 @@ def humanRGB(bulb, english):
     response = connection.getresponse()
     connection.close()
     result_str = response.read()
+    if result_str == "[]":
+        print "Error."
+        return
     parsed = json.loads(result_str)
     data_rgb = parsed[0]['rgb']
-    data_hsv = parsed[0]['hsv']
+    #data_hsv = parsed['hsv']
     command = {'xy' : rgb2xy(data_rgb), 'bri' : 254}
     #b.set_light(bulb.light_id, 'saturation' , data_hsv['saturation'],0)
     b.set_light(bulb.light_id, command)
