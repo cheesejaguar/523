@@ -9,7 +9,7 @@ execfile("../523.py")
 import sys, random, re
 
 random.seed()
-song = sys.argv[1]
+song = sys.argv[1] #This will eventually enable us to play a song during the fading of the color
 loser = []
 i = 0
 scoretable = []
