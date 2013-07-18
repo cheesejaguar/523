@@ -11,16 +11,24 @@ import sys, random, re
 random.seed()
 song = sys.argv[1]
 loser = []
+i = 0
+scoretable = []
+table.xy = blue
 
 while True:
-    i = 0
+    
     print 'Starting round!'
     timer = random.randint(10,30)
-    trans(red, timer, table)
-    time.sleep(timer)
+    trans(red, timer*100, table)
+    table.alert = 'lselect'
+    time.sleep(5)
+    table.alert = 'none'
     print 'Game over, please enter loser!'
     loser.append(raw_input())
     loser[i] = loser[i].upper()
     print 'Player:',loser[i],' has lost',loser.count(loser[i]),' times!'
+    if loser.count(loser[i]) = 1:
+        scoretable.append(loser[i])
+    #Scoretable print here
     i += 1
     table.xy = blue
